@@ -1,0 +1,7 @@
+Each record is one line; fields are separated by |. Ignore blank lines and comment lines.
+Read complete lines before splitting fields. Trim whitespace around each field; preserve internal spaces.
+Reject records with wrong field counts, empty required fields, duplicates, or invalid references, as applicable. Print a warning with filename, line number, and reason, then continue.
+If a file cannot be opened, print an error naming the file and continue without crashing; treat that file as empty.
+Connections and facilities may refer only to accepted buildings. A department parent must have been accepted on an earlier line.
+After each file, print a load summary line (Section 6.1, LOAD-4).
+Calculate all results from loaded data; do not hard-code sample totals or search results.
