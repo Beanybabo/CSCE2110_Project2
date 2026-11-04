@@ -3,68 +3,129 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <algorithm>
+#include <set>
+#include "buildings_walkways.h"
+
 
 using namespace std;
+
+string Trim(string input)
+{
+    size_t start = input.find_first_not_of(" \t\r\n");
+
+    if(start == string::npos)
+        return "";
+
+    size_t end = input.find_last_not_of(" \t\r\n");
+
+    return input.substr(start, end - start + 1);
+}
 
 vector<string> GetBuildings()
 {
     vector<string> buildings;
     string tempbuilding;
+
     ifstream BuildingsFile("../Data/buildings.txt");
-    if(!BuildingsFile.is_open()) {
-        cout << "Error" << endl;
-        return;
+    if(!BuildingsFile.is_open())
+    {
+        cout << "Warning: buildings.txt could not be opened." << endl;
+        return buildings;
+    }
+    string filename = "../Data/buildings.txt";
+    string line;
+    int lineNumber = 0;
+
+    while(getline(BuildingsFile, line))
+    {
+        lineNumber++;
+        tempbuilding = Trim(line);
+        // Ignore blank lines and comments
+        if(tempbuilding.empty() || tempbuilding[0] == '#')
+            continue;
+        // take away duplicates
+        if(find(buildings.begin(), buildings.end(), tempbuilding) != buildings.end())
+        {
+            cout << "Warning: " << filename << " line " << lineNumber << ": Duplicate building." << endl;
+            continue;
+        }
+        buildings.push_back(tempbuilding);
     }
 
-    while(BuildingsFile >> tempbuilding){
-        buildings.puch_back(building);
-    }
     BuildingsFile.close();
-
     return buildings;
 }
 
-int[][] ConnectionAccess(vector<string> buildings) // building amount will be 7 - but needs to be flexible
+vector<vector<string>> ConnectionAccess(vector<string> buildings)
 {
-    int tempconnect[buildings.size()][buildings.size()];
-
-    for(int i = 0; i < buildings.size();, i++){
-        for (int j = 0; j < buildings.size(); j++){
-            tempconnect[i][j] = 0;
-        }
-    }
+    vector<vector<string>> tempconnect(buildings.size());
 
     ifstream ConnectionsFile("../Data/connections.txt");
 
-    if(!ConnectionsFile.is_open()) {
-        cout << "Error" << endl;
-        return;
+    if(!ConnectionsFile.is_open())
+    {
+        cout << "Warning: connections.txt could not be opened." << endl;
+        return tempconnect;
     }
 
-    //dividing value
-    char splitstring = '|';
-    string templine;
+    string filename = "../Data/connections.txt";
+    string line;
+    int lineNumber = 0;
 
-    string holder_one;
-    string holder_two;
+    // Track previous connections
+    set<pair<string, string>> acceptedConnections;
 
-    int num_one;
-    int num_two;
-
-    while(getline(ConnectionsFile, templine))
+    while(getline(ConnectionsFile, line))
     {
-        stringstream ss(templine);
-        getline(ss, holder_one, splitstring);
-        getline(ss, holder_two);
+        lineNumber++;
+        line = Trim(line);
 
+        // Ignore blank lines and comments
+        if(line.empty() || line[0] == '#')
+            continue;
+        // Check field count
+        size_t separator = line.find('|');
+
+        if(separator == string::npos || line.find('|', separator + 1) != string::npos)
+        {
+            cout << "Warning: " << filename << " line " << lineNumber << ": Incorrect field count." << endl;
+            continue;
+        }
+        // Extract and trim fields
+        string holder_one = Trim(line.substr(0, separator));
+        string holder_two = Trim(line.substr(separator + 1));
+
+        // Check empty
+        if(holder_one.empty() || holder_two.empty())
+        {
+            cout << "Warning: " << filename << " line "  << lineNumber << ": Empty required field." << endl;
+            continue;
+        }
+        // Find buildings
         auto it = find(buildings.begin(), buildings.end(), holder_one);
-        num_one = distance(buildings.begin(), it);
-
         auto it2 = find(buildings.begin(), buildings.end(), holder_two);
-        num_two = distance(buildings.begin(), it2);
 
-        tempconnect[num_one][num_two] = 1;
-        tempconnect[num_two][num_one] = 1;
+        // Check both were accepted
+        if(it == buildings.end() || it2 == buildings.end())
+        {
+            cout << "Warning: " << filename << " line " << lineNumber << ": Invalid building reference." << endl;
+            continue;
+        }
+
+        // Normalize order for duplicate checking
+        pair<string, string> connection = {min(holder_one, holder_two), max(holder_one, holder_two)};
+
+        if(acceptedConnections.find(connection) != acceptedConnections.end())
+        {
+            cout << "Warning: " << filename << " line " << lineNumber << ": Duplicate connection." << endl;
+            continue;
+        }
+        acceptedConnections.insert(connection);
+
+        // connection in both directions
+        tempconnect[distance(buildings.begin(), it)].push_back(holder_two);
+        tempconnect[distance(buildings.begin(), it2)].push_back(holder_one);
     }
 
     ConnectionsFile.close();
@@ -78,13 +139,14 @@ int main()
     string input; // string to catch invalid inputs
 
     vector<string> buildingList = GetBuildings();
-    int[][] connectionsArray = ConnectionAccess(buildingList);
+    vector<vector<string>> connectionsArray = ConnectionAccess(buildingList);
 
     //Test lines
-    for(int i = 0; i < 7; i++){
-        for(int j = 0; j < 7; j++)[
+    for(int i = 0; i < buildingList.size(); i++){
+		cout << buildingList[i] << ": ";
+        for(int j = 0; j < connectionsArray[i]; j++){
             cout << connectionsArray[i][j] << " ";
-        ]
+        }
         cout << endl;
     }
 
@@ -103,6 +165,8 @@ int main()
         } else if(input == "2")
         {
             //campus navigation stuff
+			
+			
         } else if(input == "3")
         {
             // department view stuff
