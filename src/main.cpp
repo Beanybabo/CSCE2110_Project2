@@ -5,7 +5,7 @@
 #include <sstream>
 #include <algorithm>
 #include <set>
-#include "buildings_walkways.h"
+#include "../Include/buildings_walkways.h"
 
 
 using namespace std;
@@ -140,15 +140,18 @@ int main()
 
     vector<string> buildingList = GetBuildings();
     vector<vector<string>> connectionsArray = ConnectionAccess(buildingList);
+	
+	// campus graph
+	CampusGraph graph(buildingList, connectionsArray);
 
     //Test lines
-    for(int i = 0; i < buildingList.size(); i++){
-		cout << buildingList[i] << ": ";
-        for(int j = 0; j < connectionsArray[i]; j++){
-            cout << connectionsArray[i][j] << " ";
-        }
-        cout << endl;
-    }
+    //for(int i = 0; i < buildingList.size(); i++){
+	//	cout << buildingList[i] << ": ";
+    //    for(int j = 0; j < connectionsArray[i]; j++){
+    //        cout << connectionsArray[i][j] << " ";
+    //    }
+    //    cout << endl;
+    //}
 
     while(running){
         cout << "Which function would you like to use?" << endl;
@@ -165,7 +168,7 @@ int main()
         } else if(input == "2")
         {
             //campus navigation stuff
-			
+			graph.CampusNavigationMenu();
 			
         } else if(input == "3")
         {
