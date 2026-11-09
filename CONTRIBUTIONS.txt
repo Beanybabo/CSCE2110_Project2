@@ -8,7 +8,11 @@ Modules:
     - Shared text helpers (Stringutils.h)
 
 Benjamin Pickett
-
+Modules:
+	- campus graph (buildings_walkways.h, buildings_walkways.cpp)
+    - BFS reachability (buildings_walkways.h, buildings_walkways.cpp)
+    - shortest path (buildings_walkways.h, buildings_walkways.cpp)
+    - connectivity report (buildings_walkways.h, buildings_walkways.cpp)
 
 Sakeena Gordon
 

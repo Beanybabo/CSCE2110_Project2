@@ -1,5 +1,5 @@
-#include "Hashtable.h"
-#include "Stringutils.h"
+#include "../Include/Hashtable.h"
+#include "../Include/Stringutils.h"
  
 // creates an empty table with 'capacity' buckets
 HashTable::HashTable(int capacity) {

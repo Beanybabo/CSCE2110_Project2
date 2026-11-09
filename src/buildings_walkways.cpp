@@ -19,7 +19,7 @@ CampusGraph::CampusGraph(const vector<string>& buildingList, const vector<vector
 			
 			if(neighborIndex != -1)
 			{
-				adjacency.push_back(neighborIndex);
+				adjacency[i].push_back(neighborIndex);
 			}
 		}
 	}
@@ -67,17 +67,17 @@ void CampusGraph::DisplayGraph() const
     {
         cout << buildings[i] << ": ";
 
-        if(adjacencyList[i].empty())
+        if(adjacency[i].empty())
         {
             cout << "(no connections)";
         }
         else
         {
-            for(int j = 0; j < adjacencyList[i].size(); j++)
+            for(int j = 0; j < adjacency[i].size(); j++)
             {
-                cout << buildings[adjacencyList[i][j]];
+                cout << buildings[adjacency[i][j]];
 
-                if(j < adjacencyList[i].size() - 1)
+                if(j < adjacency[i].size() - 1)
 				{
 					cout << ", ";
 				}
@@ -88,14 +88,14 @@ void CampusGraph::DisplayGraph() const
     }
 }
 
-void CampusGraph::DisplayStatistics() const
+void CampusGraph::DisplayInfo() const
 {
     cout << "\nCampus Graph Statistics" << endl;
     int totalConnections = 0;
 
-    for(int i = 0; i < adjacencyList.size(); i++)
+    for(int i = 0; i < adjacency.size(); i++)
     {
-        totalConnections += adjacencyList[i].size();
+        totalConnections += adjacency[i].size();
     }
     totalConnections /= 2;
 
@@ -110,7 +110,7 @@ void CampusGraph::DisplayStatistics() const
     }
     for(int i = 0; i < buildings.size(); i++)
     {
-        cout << buildings[i] << ": " << adjacencyList[i].size() << endl;
+        cout << buildings[i] << ": " << adjacency[i].size() << endl;
     }
 }
 
@@ -145,9 +145,9 @@ void CampusGraph::FindReachable() const
         cout << buildings[current] << " (Distance: " << distances[current] << " connections)" << endl;
         reachableCount++;
 
-        for(int i = 0; i < adjacencyList[current].size(); i++)
+        for(int i = 0; i < adjacency[current].size(); i++)
         {
-            int neighbor = adjacencyList[current][i];
+            int neighbor = adjacency[current][i];
             if(!visited[neighbor])
             {
                 visited[neighbor] = true;
@@ -181,7 +181,7 @@ void CampusGraph::CampusNavigationMenu() const
         }
         else if(choice == "2")
         {
-            DisplayStatistics();
+            DisplayInfo();
         }
         else if(choice == "3")
         {
