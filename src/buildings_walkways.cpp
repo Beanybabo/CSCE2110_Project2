@@ -1,4 +1,4 @@
-#include "../Include/buildings_walkways.h"
+#include "buildings_walkways.h"
 
 #include <algorithm>
 #include <cctype>

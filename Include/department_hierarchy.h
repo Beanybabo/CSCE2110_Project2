@@ -1,31 +1,31 @@
-
 #ifndef DEPARTMENT_HIERARCHY_H
 #define DEPARTMENT_HIERARCHY_H
 #include <iostream>
 #include <vector>
 #include <string>
 #include <fstream>
+#include "Stringutils.h"
 using namespace std;
 
-
-
+// One department in the tree.
 struct DepartmentNode {
     string name;
-    DepartmentNode* parent;
-    vector<DepartmentNode*> children;
+    DepartmentNode* parent = nullptr;
+    vector<DepartmentNode*> children;   // insertion order
 };
 
 class DepartmentTree {
 
-
 private:
     DepartmentNode* root = nullptr;
+
+    // Finds a department by name, ignoring capitalization. Returns nullptr if missing.
     DepartmentNode* findNode(DepartmentNode* node, string name) {
         if (node == nullptr) {
             return nullptr;
         }
 
-        if (node->name == name) {
+        if (equalsIgnoreCase(node->name, name)) {
             return node;
         }
 
@@ -39,6 +39,8 @@ private:
 
         return nullptr;
     }
+
+    // Deletes a node and all of its descendants.
     void deleteTree(DepartmentNode* node) {
         if (node == nullptr) {
             return;
@@ -51,50 +53,20 @@ private:
         delete node;
     }
 
+    // Collects names in preorder (parent first, then children in order).
+    void preorderList(DepartmentNode* node, vector<string>& names) {
+        if (node == nullptr) {
+            return;
+        }
 
-public:
-    DepartmentTree() {
-        root = nullptr;
+        names.push_back(node->name);
+
+        for (DepartmentNode* child : node->children) {
+            preorderList(child, names);
+        }
     }
 
-    DepartmentTree() {
-        deleteTree(root);
-    }
-    bool addDepartment(string name, string parentName) {
-        if (findNode(root, name) != nullptr) {
-            return false;
-        }
-
-        if (root == nullptr) {
-            if (parentName == "NONE") {
-                root = new DepartmentNode;
-                root->name = name;
-                root->parent = nullptr;
-                return true;
-            }
-
-            if (parentName.empty()) {
-                root = new DepartmentNode;
-                root->name = name;
-                root->parent = nullptr;
-                return true;
-            }
-
-            return false;
-        }
-        DepartmentNode* parent = findNode(root, parentName);
-
-        if (parent == nullptr) {
-            return false;
-        }
-
-        DepartmentNode* child = new DepartmentNode;
-        child->name = name;
-        child->parent = parent;
-        parent->children.push_back(child);
-
-        return true;
-    }  
+    // Prints a node and its children, indented four spaces per level.
     void showTree(DepartmentNode* node, int level) {
         if (node == nullptr) {
             return;
@@ -110,6 +82,63 @@ public:
             showTree(child, level + 1);
         }
     }
+
+public:
+    DepartmentTree() {
+        root = nullptr;
+    }
+
+    // Frees every node when the tree is destroyed.
+    ~DepartmentTree() {
+        deleteTree(root);
+    }
+
+    // The tree owns raw pointers, so copying is not allowed.
+    DepartmentTree(const DepartmentTree&) = delete;
+    DepartmentTree& operator=(const DepartmentTree&) = delete;
+
+    // True when no departments are loaded.
+    bool isEmpty() const {
+        return root == nullptr;
+    }
+
+    // True when a department with this name exists (ignoring capitalization).
+    bool hasDepartment(string name) {
+        return findNode(root, name) != nullptr;
+    }
+
+    // Adds a department. The first one must use parent "NONE" and becomes the root.
+    // Returns false for a duplicate name, an unknown parent, or a bad root.
+    bool addDepartment(string name, string parentName) {
+        if (findNode(root, name) != nullptr) {
+            return false;
+        }
+
+        if (root == nullptr) {
+            if (!equalsIgnoreCase(parentName, "NONE")) {
+                return false;
+            }
+
+            root = new DepartmentNode;
+            root->name = name;
+            return true;
+        }
+
+        DepartmentNode* parent = findNode(root, parentName);
+
+        if (parent == nullptr) {
+            return false;
+        }
+
+        DepartmentNode* child = new DepartmentNode;
+        child->name = name;
+        child->parent = parent;
+        parent->children.push_back(child);
+
+        return true;
+    }
+
+    // Shows the hierarchy, one department per line, in preorder.
     void displayHierarchy() {
         if (root == nullptr) {
             cout << "There are no departments found." << endl;
@@ -118,63 +147,89 @@ public:
 
         showTree(root, 0);
     }
-    void loadDepartments(string filename) {
-        ifstream file(filename);
 
-        if (!file.is_open()) {
-            cout << "Could not open the file " << filename << endl;
+    // Shows the preorder sequence on one line, without indentation.
+    void preorder() {
+        if (root == nullptr) {
+            cout << "There are no departments found." << endl;
             return;
         }
 
-        string line;
-        int lineNumber = 0;
-        int loaded = 0;
+        vector<string> names;
+        preorderList(root, names);
 
-        while (getline(file, line)) {
-            lineNumber++;
-
-            if (line.empty()) {
-                continue;
+        for (size_t i = 0; i < names.size(); i++) {
+            cout << names[i];
+            if (i + 1 < names.size()) {
+                cout << " -> ";
             }
+        }
+        cout << endl;
+    }
 
-            if (line[0] == '#') {
-                continue;
-            }
+    // Loads departments.txt (DepartmentName|ParentName), with warnings and a summary.
+    void loadDepartments(string filename) {
+        ifstream file(filename);
+        int accepted = 0;
+        int rejected = 0;
 
-            int pos = line.find('|');
+        if (!file.is_open()) {
+            cout << "Error: could not open " << filename << " (treated as empty)." << endl;
+        }
+        else {
+            string line;
+            int lineNumber = 0;
 
-            if (pos == string::npos) {
-                cout << filename << " line " << lineNumber
-                     << ": Missing |" << endl;
-                continue;
-            }
+            while (getline(file, line)) {
+                lineNumber++;
+                line = trim(line);               // removes spaces and \r
 
-            string name = line.substr(0, pos);
-            string parentName = line.substr(pos + 1);
+                if (line.empty() || line[0] == '#') {
+                    continue;
+                }
 
-            if (name.empty()) {
-                cout << filename << " line " << lineNumber
-                     << ": Name is missing" << endl;
-                continue;
-            }
+                vector<string> fields = splitFields(line, '|');
 
-            if (findNode(root, name) != nullptr) {
-                cout << filename << " line " << lineNumber
-                     << ": Duplicate department" << endl;
-                continue;
-            }
+                if (fields.size() != 2) {
+                    cout << "Warning: " << filename << " line " << lineNumber
+                         << ": expected 2 fields" << endl;
+                    rejected++;
+                    continue;
+                }
 
-            if (addDepartment(name, parentName)) {
-                loaded++;
-            }
-            else {
-                cout << filename << " line " << lineNumber
-                     << ": Parent not found or invalid root" << endl;
+                string name = trim(fields[0]);
+                string parentName = trim(fields[1]);
+
+                if (name.empty() || parentName.empty()) {
+                    cout << "Warning: " << filename << " line " << lineNumber
+                         << ": empty required field" << endl;
+                    rejected++;
+                    continue;
+                }
+
+                if (findNode(root, name) != nullptr) {
+                    cout << "Warning: " << filename << " line " << lineNumber
+                         << ": duplicate department '" << name << "'" << endl;
+                    rejected++;
+                    continue;
+                }
+
+                if (addDepartment(name, parentName)) {
+                    accepted++;
+                }
+                else {
+                    cout << "Warning: " << filename << " line " << lineNumber
+                         << ": unknown parent '" << parentName
+                         << "' or invalid root (first department must use NONE)" << endl;
+                    rejected++;
+                }
             }
         }
 
-        cout << "Departments loaded: " << loaded << endl;
+        cout << filename << ": " << accepted << " accepted, " << rejected << " rejected" << endl;
     }
+
+    // Shows name, parent, direct-child count, and depth of a department.
     void searchDepartment(string name) {
         DepartmentNode* node = findNode(root, name);
 
@@ -201,7 +256,8 @@ public:
             depth++;
             current = current->parent;
         }
-       cout << "Depth: " << depth << endl;
+        cout << "Depth: " << depth << endl;
     }
 };
+
 #endif
