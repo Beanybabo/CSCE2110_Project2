@@ -1,0 +1,18 @@
+# CONTRIBUTIONS
+
+Davion Green
+Modules:
+    - Facility record (Facility.h)
+    - Custom hash table (Hashtable.h, Hashtable.cpp)
+    - Facility loading, display and ID search (Facilitydatabase.h, Facilitydatabase.cpp)
+    - Shared text helpers (Stringutils.h)
+
+Benjamin Pickett
+
+
+Sakeena Gordon
+
+
+
+Shared work
+main.cpp and menu, file-loading utilities, test_results.txt, README.txt, design_document.txt, .gitignore
