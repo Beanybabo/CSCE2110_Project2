@@ -7,6 +7,7 @@ Modules:
     - Facility loading, display and ID search (Facilitydatabase.h, Facilitydatabase.cpp)
     - Shared text helpers (Stringutils.h)
 
+
 Benjamin Pickett
 Modules:
 	- campus graph (buildings_walkways.h, buildings_walkways.cpp)
@@ -15,6 +16,12 @@ Modules:
     - connectivity report (buildings_walkways.h, buildings_walkways.cpp)
 
 Sakeena Gordon
+Modules:
+	-Add and searched departments(department_hierarchy.h)
+	-Loaded departments from the file (department_hierarchy.h)
+	-Displayed department hierarchy (department_hierarchy.h)
+	-Connected department view to a main menu (main.cpp)
+	-Department tree (department_hierarchy.h)
 
 
 
