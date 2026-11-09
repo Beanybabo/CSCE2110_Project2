@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <set>
 #include "../Include/buildings_walkways.h"
+#include "../Include/department_hierarchy.h"
 
 
 using namespace std;
@@ -143,6 +144,8 @@ int main()
 	
 	// campus graph
 	CampusGraph graph(buildingList, connectionsArray);
+	DepartmentTree departments;
+	departments.loadDepartments("../Data/departments.txt");
 
     //Test lines
     //for(int i = 0; i < buildingList.size(); i++){
@@ -172,7 +175,8 @@ int main()
 			
         } else if(input == "3")
         {
-            // department view stuff
+			// department view stuff
+           departments.displayHierarchy();
         } else if(input == "4")
         {
             cout << "Goodbye." << endl;
