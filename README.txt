@@ -14,26 +14,45 @@ PURPOSE
         - add, search, and display departments and run a preorder traversal
 
 BUILD
-    g++ -std=c++11 -g -Iinclude src/*.cpp -o campus
-RUN 
+    Run this command from the project root (Linux / UNT CSE CELL):
+ 
+        g++ -std=c++11 -g -Iinclude src/*.cpp -o campus
+ 
+    This compiles every .cpp file in src/ and creates the program ./campus.
+    Run it again after changing any code.
+ 
+    Folder names are case-sensitive: the headers folder must be "include"
+    and the data folder "data".
+ 
+    In VS Code you can also build with Ctrl+Shift+B (uses
+    .vscode/tasks.json), which runs the same command.
+ 
+RUN
     Always run the program from the project root (the folder that contains
     data/, src/, and include/). The data directory is a relative path, so
     running from any other folder (for example src/) reports the data files
     as missing.
-
-    1. Build (see BUILD above):
-
+ 
+    1. Build the program (see BUILD above):
+ 
+        g++ -std=c++11 -g -Iinclude src/*.cpp -o campus
+ 
     2. Run with the default data directory (data/):
-
+ 
         ./campus
 
-Running in VS Code: use Run > "Run campus" (F5, uses .vscode/launch.json)
-or run ./campus in the VS Code terminal. The launch configuration sets the
-working directory to the project root so data/ is found. The "Run" button
-of extensions such as Code Runner starts the program in a different folder
-and will not find data/; use the terminal or F5 instead.
-
-On startup the four files are loaded in this order: buildings.txt,
-connections.txt, facilities.txt, departments.txt. Warnings and one load
-summary line per file are printed, then the menu appears. Enter a menu
-number and press Enter; enter 0 to exit.
+TESTING
+    The tests are recorded in test_results.txt. To rerun them and regenerate
+    that file from the program's real output (needs python3), build the
+    program first, then run the script from the project root:
+ 
+        g++ -std=c++11 -g -Iinclude src/*.cpp -o campus
+        python3 tools/run_tests.py
+ 
+    Test data folders (use them as the optional run argument):
+        testdata/collision      IDs that collide in the hash table
+        testdata/messy          bad records of every kind
+        testdata/crlf           Windows line endings, extra spaces, # in a name
+        testdata/empty_files    all four files empty
+        testdata/missing_files  facilities.txt is absent
+        testdata/root_only      one-department tree

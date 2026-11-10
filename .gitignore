@@ -1,0 +1,11 @@
+# Compiled executables and object files
+campus
+*.o
+*.out
+*.exe
+ 
+# Editor / IDE files
+.vs/
+.vscode/
+*.swp
+.idea/
