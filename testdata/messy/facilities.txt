@@ -1,0 +1,8 @@
+F001|Main Reading Room|Library|Library
+f001|Copy of F001|Gym|Other
+F002|Tutoring|Mars Hall|Tutoring Center
+F003|Fitness Center|gym|Recreation
+004|Bad ID|Library|Library
+F005|Missing Category|Library
+F006||Library|Library
+F007|Room 1|Library|Classroom|extra

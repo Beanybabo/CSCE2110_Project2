@@ -25,29 +25,38 @@ Data directory: testdata/messy
 Menu input: 0 (just exit)
 Expected: Warnings with filename, line number, reason: connections lines 6,7; facilities lines 6,8; departments line 5
 Actual:
-    Error: could not open buildings.txt (treated as empty).
-    buildings.txt: 0 accepted, 0 rejected
-    Error: could not open connections.txt (treated as empty).
-    connections.txt: 0 accepted, 0 rejected
-    Error: could not open facilities.txt (treated as empty).
-    facilities.txt: 0 accepted, 0 rejected (hash capacity 13, entries 0, collisions 0)
-    Error: could not open testdata/messy/departments.txt (treated as empty).
-    testdata/messy/departments.txt: 0 accepted, 0 rejected
-Result: FAIL
+    Warning: buildings.txt line 5: duplicate building 'library'
+    buildings.txt: 4 accepted, 1 rejected
+    Warning: connections.txt line 2: duplicate connection
+    Warning: connections.txt line 3: self-connection
+    Warning: connections.txt line 4: unknown building 'Mars Hall'
+    Warning: connections.txt line 6: expected 2 fields
+    Warning: connections.txt line 7: expected 2 fields
+    Warning: connections.txt line 8: empty required field
+    connections.txt: 2 accepted, 6 rejected
+    Warning: facilities.txt line 2: duplicate facility ID F001
+    Warning: facilities.txt line 3: unknown building 'Mars Hall'
+    Warning: facilities.txt line 5: invalid ID '004' (must be F plus exactly three digits)
+    Warning: facilities.txt line 6: expected 4 fields but found 3
+    Warning: facilities.txt line 7: empty required field
+    Warning: facilities.txt line 8: expected 4 fields but found 5
+    facilities.txt: 2 accepted, 6 rejected (hash capacity 13, entries 2, collisions 0)
+    Warning: testdata/messy/departments.txt line 3: duplicate department 'college of science'
+    Warning: testdata/messy/departments.txt line 4: unknown parent 'Nowhere College' or invalid root (first department must use NONE)
+    Warning: testdata/messy/departments.txt line 5: expected 2 fields
+    testdata/messy/departments.txt: 3 accepted, 3 rejected
+Result: PASS
 ------------------------------------------------------------
 Test 3: Missing file (facilities.txt absent)
 Data directory: testdata/missing_files
 Menu input: 0 (just exit)
 Expected: Error naming facilities.txt, treated as empty (0/0), program continues to the menu
 Actual:
-    Error: could not open buildings.txt (treated as empty).
-    buildings.txt: 0 accepted, 0 rejected
-    Error: could not open connections.txt (treated as empty).
-    connections.txt: 0 accepted, 0 rejected
+    buildings.txt: 7 accepted, 0 rejected
+    connections.txt: 6 accepted, 0 rejected
     Error: could not open facilities.txt (treated as empty).
     facilities.txt: 0 accepted, 0 rejected (hash capacity 13, entries 0, collisions 0)
-    Error: could not open testdata/missing_files/departments.txt (treated as empty).
-    testdata/missing_files/departments.txt: 0 accepted, 0 rejected
+    testdata/missing_files/departments.txt: 7 accepted, 0 rejected
 Result: PASS
 ------------------------------------------------------------
 Test 4: Duplicate building (capitalization) and duplicate facility ID (capitalization)
@@ -55,58 +64,90 @@ Data directory: testdata/messy
 Menu input: 0 (just exit)
 Expected: buildings line 5 "library" rejected; facilities line 2 "f001" rejected, first record kept
 Actual:
-    Error: could not open buildings.txt (treated as empty).
-    buildings.txt: 0 accepted, 0 rejected
-    Error: could not open connections.txt (treated as empty).
-    connections.txt: 0 accepted, 0 rejected
-    Error: could not open facilities.txt (treated as empty).
-    facilities.txt: 0 accepted, 0 rejected (hash capacity 13, entries 0, collisions 0)
-    Error: could not open testdata/messy/departments.txt (treated as empty).
-    testdata/messy/departments.txt: 0 accepted, 0 rejected
-Result: FAIL
+    Warning: buildings.txt line 5: duplicate building 'library'
+    buildings.txt: 4 accepted, 1 rejected
+    Warning: connections.txt line 2: duplicate connection
+    Warning: connections.txt line 3: self-connection
+    Warning: connections.txt line 4: unknown building 'Mars Hall'
+    Warning: connections.txt line 6: expected 2 fields
+    Warning: connections.txt line 7: expected 2 fields
+    Warning: connections.txt line 8: empty required field
+    connections.txt: 2 accepted, 6 rejected
+    Warning: facilities.txt line 2: duplicate facility ID F001
+    Warning: facilities.txt line 3: unknown building 'Mars Hall'
+    Warning: facilities.txt line 5: invalid ID '004' (must be F plus exactly three digits)
+    Warning: facilities.txt line 6: expected 4 fields but found 3
+    Warning: facilities.txt line 7: empty required field
+    Warning: facilities.txt line 8: expected 4 fields but found 5
+    facilities.txt: 2 accepted, 6 rejected (hash capacity 13, entries 2, collisions 0)
+    Warning: testdata/messy/departments.txt line 3: duplicate department 'college of science'
+    Warning: testdata/messy/departments.txt line 4: unknown parent 'Nowhere College' or invalid root (first department must use NONE)
+    Warning: testdata/messy/departments.txt line 5: expected 2 fields
+    testdata/messy/departments.txt: 3 accepted, 3 rejected
+Result: PASS
 ------------------------------------------------------------
 Test 5: Unknown building refs, duplicate and reversed connections, unknown department parent
 Data directory: testdata/messy
 Menu input: 0 (just exit)
 Expected: connections line 2 (reversed duplicate) and line 4 (Mars Hall) rejected; facilities line 3 unknown building; departments line 4 unknown parent
 Actual:
-    Error: could not open buildings.txt (treated as empty).
-    buildings.txt: 0 accepted, 0 rejected
-    Error: could not open connections.txt (treated as empty).
-    connections.txt: 0 accepted, 0 rejected
-    Error: could not open facilities.txt (treated as empty).
-    facilities.txt: 0 accepted, 0 rejected (hash capacity 13, entries 0, collisions 0)
-    Error: could not open testdata/messy/departments.txt (treated as empty).
-    testdata/messy/departments.txt: 0 accepted, 0 rejected
-Result: FAIL
+    Warning: buildings.txt line 5: duplicate building 'library'
+    buildings.txt: 4 accepted, 1 rejected
+    Warning: connections.txt line 2: duplicate connection
+    Warning: connections.txt line 3: self-connection
+    Warning: connections.txt line 4: unknown building 'Mars Hall'
+    Warning: connections.txt line 6: expected 2 fields
+    Warning: connections.txt line 7: expected 2 fields
+    Warning: connections.txt line 8: empty required field
+    connections.txt: 2 accepted, 6 rejected
+    Warning: facilities.txt line 2: duplicate facility ID F001
+    Warning: facilities.txt line 3: unknown building 'Mars Hall'
+    Warning: facilities.txt line 5: invalid ID '004' (must be F plus exactly three digits)
+    Warning: facilities.txt line 6: expected 4 fields but found 3
+    Warning: facilities.txt line 7: empty required field
+    Warning: facilities.txt line 8: expected 4 fields but found 5
+    facilities.txt: 2 accepted, 6 rejected (hash capacity 13, entries 2, collisions 0)
+    Warning: testdata/messy/departments.txt line 3: duplicate department 'college of science'
+    Warning: testdata/messy/departments.txt line 4: unknown parent 'Nowhere College' or invalid root (first department must use NONE)
+    Warning: testdata/messy/departments.txt line 5: expected 2 fields
+    testdata/messy/departments.txt: 3 accepted, 3 rejected
+Result: PASS
 ------------------------------------------------------------
 Test 6: [Final] Self-connection and duplicate department differing by capitalization
 Data directory: testdata/messy
 Menu input: 0 (just exit)
 Expected: connections line 3 self-connection rejected; departments line 3 duplicate rejected
 Actual:
-    Error: could not open buildings.txt (treated as empty).
-    buildings.txt: 0 accepted, 0 rejected
-    Error: could not open connections.txt (treated as empty).
-    connections.txt: 0 accepted, 0 rejected
-    Error: could not open facilities.txt (treated as empty).
-    facilities.txt: 0 accepted, 0 rejected (hash capacity 13, entries 0, collisions 0)
-    Error: could not open testdata/messy/departments.txt (treated as empty).
-    testdata/messy/departments.txt: 0 accepted, 0 rejected
-Result: FAIL
+    Warning: buildings.txt line 5: duplicate building 'library'
+    buildings.txt: 4 accepted, 1 rejected
+    Warning: connections.txt line 2: duplicate connection
+    Warning: connections.txt line 3: self-connection
+    Warning: connections.txt line 4: unknown building 'Mars Hall'
+    Warning: connections.txt line 6: expected 2 fields
+    Warning: connections.txt line 7: expected 2 fields
+    Warning: connections.txt line 8: empty required field
+    connections.txt: 2 accepted, 6 rejected
+    Warning: facilities.txt line 2: duplicate facility ID F001
+    Warning: facilities.txt line 3: unknown building 'Mars Hall'
+    Warning: facilities.txt line 5: invalid ID '004' (must be F plus exactly three digits)
+    Warning: facilities.txt line 6: expected 4 fields but found 3
+    Warning: facilities.txt line 7: empty required field
+    Warning: facilities.txt line 8: expected 4 fields but found 5
+    facilities.txt: 2 accepted, 6 rejected (hash capacity 13, entries 2, collisions 0)
+    Warning: testdata/messy/departments.txt line 3: duplicate department 'college of science'
+    Warning: testdata/messy/departments.txt line 4: unknown parent 'Nowhere College' or invalid root (first department must use NONE)
+    Warning: testdata/messy/departments.txt line 5: expected 2 fields
+    testdata/messy/departments.txt: 3 accepted, 3 rejected
+Result: PASS
 ------------------------------------------------------------
 Test 7: [Final] Empty files
 Data directory: testdata/empty_files
 Menu input: 0 (just exit)
 Expected: All four load as 0 accepted, 0 rejected, no crash
 Actual:
-    Error: could not open buildings.txt (treated as empty).
     buildings.txt: 0 accepted, 0 rejected
-    Error: could not open connections.txt (treated as empty).
     connections.txt: 0 accepted, 0 rejected
-    Error: could not open facilities.txt (treated as empty).
     facilities.txt: 0 accepted, 0 rejected (hash capacity 13, entries 0, collisions 0)
-    Error: could not open testdata/empty_files/departments.txt (treated as empty).
     testdata/empty_files/departments.txt: 0 accepted, 0 rejected
 Result: PASS
 ------------------------------------------------------------
@@ -115,17 +156,15 @@ Data directory: testdata/crlf
 Menu input: 1 , 0
 Expected: All records accepted (0 rejected); f001 stored as F001; "Main Room #5" kept; whitespace trimmed
 Actual:
-    Error: could not open buildings.txt (treated as empty).
-    buildings.txt: 0 accepted, 0 rejected
-    Error: could not open connections.txt (treated as empty).
-    connections.txt: 0 accepted, 0 rejected
-    Error: could not open facilities.txt (treated as empty).
-    facilities.txt: 0 accepted, 0 rejected (hash capacity 13, entries 0, collisions 0)
-    Error: could not open testdata/crlf/departments.txt (treated as empty).
-    testdata/crlf/departments.txt: 0 accepted, 0 rejected
-    No facilities are loaded.
+    buildings.txt: 3 accepted, 0 rejected
+    connections.txt: 2 accepted, 0 rejected
+    facilities.txt: 2 accepted, 0 rejected (hash capacity 13, entries 2, collisions 0)
+    testdata/crlf/departments.txt: 2 accepted, 0 rejected
+    F001 | Main Room #5 | Library | Library
+    F002 | Study Lounge | Gym | Lounge
+    Total facilities: 2
     (program exited normally: Goodbye.)
-Result: FAIL
+Result: PASS
 ------------------------------------------------------------
 Test 9: View all facilities (file order + total)
 Data directory: data
@@ -304,21 +343,28 @@ Menu input: 4 , 0
 Expected: 4 buildings, 2 connections
 Actual:
     Campus Graph Statistics
-    Total buildings: 0
-    Total connections: 0
+    Total buildings: 4
+    Total connections: 2
     Building Degrees:
-    There are no buildings in the campus graph.
+    Library: 1
+    Student Union: 1
+    Gym: 1
+    Lab Annex: 1
     (program exited normally: Goodbye.)
-Result: FAIL
+Result: PASS
 ------------------------------------------------------------
 Test 24: Multiple components: BFS from Library reaches only its component
 Data directory: testdata/messy
 Menu input: 5 , Library , 0
 Expected: Library, Student Union; 2 of 4
 Actual:
-    Enter starting building: Error: Building not found.
+    Enter starting building: 
+    --- Reachable Buildings ---
+    Library (Distance: 0 connections)
+    Student Union (Distance: 1 connections)
+    Reachable buildings: 2 out of 4
     (program exited normally: Goodbye.)
-Result: FAIL
+Result: PASS
 ------------------------------------------------------------
 Test 25: Empty graph (no buildings): display and counts
 Data directory: testdata/empty_files
@@ -350,11 +396,14 @@ Data directory: testdata/root_only
 Menu input: 7 , Only Department , 9 , 8 , 0
 Expected: Parent None, Children 0, Depth 0; preorder and hierarchy show one department
 Actual:
-    Enter department name: Department could not be found.
-    There are no departments found.
-    There are no departments found.
+    Enter department name: Name: Only Department
+    Parent: None
+    Children: 0
+    Depth: 0
+    Only Department
+    Only Department
     (program exited normally: Goodbye.)
-Result: FAIL
+Result: PASS
 ------------------------------------------------------------
 Test 28: Search root department
 Data directory: data
@@ -518,4 +567,4 @@ Actual:
     (program exited normally: Goodbye.)
 Result: PASS
 ------------------------------------------------------------
-SUMMARY: 32 of 40 tests passed.
+SUMMARY: 40 of 40 tests passed.
