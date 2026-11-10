@@ -119,7 +119,15 @@ void CampusGraph::FindReachable() const
     cout << "\nEnter starting building: ";
 
     string startBuilding;
-    getline(cin >> ws, startBuilding);
+    getline(cin, startBuilding);
+
+    // A blank name is an error (return to the menu)
+    if(Fix(startBuilding).empty())
+    {
+        cout << "Error: the building name cannot be blank." << endl;
+        return;
+    }
+
     int startIndex = FindBuildingIndex(startBuilding);
 
     if(startIndex == -1)
