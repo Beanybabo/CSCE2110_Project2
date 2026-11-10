@@ -1,0 +1,2 @@
+f001| Main Room #5 |library|Library
+  F002 | Study Lounge | Gym | Lounge 

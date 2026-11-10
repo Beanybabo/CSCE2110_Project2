@@ -1,0 +1,8 @@
+Library|Student Union
+student union|LIBRARY
+Library|Library
+Library|Mars Hall
+Gym|Lab Annex
+Gym
+Gym|Lab Annex|Extra
+ |Gym

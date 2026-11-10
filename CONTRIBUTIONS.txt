@@ -6,6 +6,10 @@ Modules:
     - Custom hash table (Hashtable.h, Hashtable.cpp)
     - Facility loading, display and ID search (Facilitydatabase.h, Facilitydatabase.cpp)
     - Shared text helpers (Stringutils.h)
+Other work:
+    - Collision test data
+    - Test script and test records (tools/run_test.py, test_results.txt)
+    - Hash table and facility sections of design_document.txt
 
 Benjamin Pickett
 Modules:
@@ -22,7 +26,10 @@ Modules:
 	-Connected department view to a main menu (main.cpp)
 	-Department tree (department_hierarchy.h)
 
-
-
 Shared work
-main.cpp and menu, file-loading utilities, test_results.txt, README.txt, design_document.txt, .gitignore
+    - main.cpp and menu
+    - File loading for buildings.txt and connections.txt
+    - README.txt
+    - design_document.txt
+    - test_results.txt and testdata/
+    - .gitignore

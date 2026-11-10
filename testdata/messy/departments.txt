@@ -1,0 +1,6 @@
+University|NONE
+College of Science|University
+college of science|University
+Physics|Nowhere College
+Math
+Biology|university
