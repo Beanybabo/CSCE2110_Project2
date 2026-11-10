@@ -1,5 +1,5 @@
 # CONTRIBUTIONS
-
+ 
 Davion Green
 Modules:
     - Facility record (Facility.h)
@@ -8,16 +8,16 @@ Modules:
     - Shared text helpers (Stringutils.h)
 Other work:
     - Collision test data
-    - Test script and test records (tools/run_test.py, test_results.txt)
+    - Test records (test_results.txt)
     - Hash table and facility sections of design_document.txt
-
+ 
 Benjamin Pickett
 Modules:
 	- campus graph (buildings_walkways.h, buildings_walkways.cpp)
     - BFS reachability (buildings_walkways.h, buildings_walkways.cpp)
     - shortest path (buildings_walkways.h, buildings_walkways.cpp)
     - connectivity report (buildings_walkways.h, buildings_walkways.cpp)
-
+ 
 Sakeena Gordon
 Modules:
 	-Add and searched departments(department_hierarchy.h)
@@ -25,7 +25,7 @@ Modules:
 	-Displayed department hierarchy (department_hierarchy.h)
 	-Connected department view to a main menu (main.cpp)
 	-Department tree (department_hierarchy.h)
-
+ 
 Shared work
     - main.cpp and menu
     - File loading for buildings.txt and connections.txt
