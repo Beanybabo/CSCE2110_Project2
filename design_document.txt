@@ -1,0 +1,72 @@
+1. Overview
+The program is split into modules: facilities, hash table, campus graph, and department tree.
+main.cpp starts the program, loads the files in order and runs the menu.
+All input is read as whole lines with getline, trimmed (spaces, tabs, \r), and a record is rejected witha  warning showing the filename, line number, and reason.
+Each file ends with a load summary line.
+
+2. Custom Hash Table 
+Key: the facility ID. IDs are trimmed and converted to uppercase before they are validated, hashed, stored, or compared, so F004 and f004 are one key.
+
+Hash function
+    hash = 0
+    for each character c of the uppercase ID:
+        hash = (hash * 31 + c) mod capacity
+Taking the remainder at every step always gives an index from 0 to capacity - 1.
+
+Collision strategy: separate chaining. Each bucket is a list (std::vector)
+of facilities; a colliding facility is added to the end of its bucket's list.
+Why: chains can grow, so there is no fixed limit on facilities (HASH-5); the
+table never fills up; insert, find and duplicate checks only look at one
+bucket; and it is simple to explain.
+
+What counts as a collision: an ACCEPTED insertion into a bucket that already
+holds at least one entry. A rejected duplicate ID is never inserted, so it
+does not change the count. Collisions are printed in the facilities load
+summary (capacity, entries, collisions).
+
+Capacity and full table: the initial capacity is the named constant
+DEFAULT_HASH_CAPACITY (13) in Hashtable.h, also a constructor argument. There
+is no resizing. Because chaining is used, the table cannot become full, so
+no "table full" warning is needed.
+
+Demonstration: with capacity 13, F005 and F010 both hash to bucket 12.
+testdata/collision/ loads them (and a duplicate "f005") and reports
+collisions 1, entries 2 (see test_results.txt, Test 16).
+
+3. Facilities (Facility, FacilityDatabase)
+FacilityDatabase keeps a std::vector of accepted facilities in file order
+(used to display them) and the HashTable (used for ID search; ID lookup
+never scans the vector). A record is rejected for: wrong field count (needs
+4), an empty field, an invalid ID (F plus exactly three digits), an unknown
+building (matched to buildings.txt ignoring case; the building's spelling
+from buildings.txt is stored), or a duplicate ID (first record kept).
+ID search has three outcomes: invalid format, valid but not found (shows the
+normalized ID), and found.
+
+4. Campus Graph (CampusGraph, buildings_walkways.h/.cpp)
+Representation: adjacency list - a vector of building names plus, for each
+building, a vector of neighbor indexes. Why: it is dynamically sized (no
+fixed limits), uses little memory for a sparse campus, and keeps neighbors in
+the order connections were accepted. Each connection is stored at both
+endpoints and counted once (total = sum of degrees / 2). Buildings and
+neighbors are never sorted. The same graph is used for display, counts and
+BFS. Building names typed by the user are matched ignoring case and outer
+whitespace.
+
+main.cpp loads buildings.txt and connections.txt (rejecting duplicates,
+reversed duplicates, self-connections and unknown buildings) and builds the
+graph from the accepted records.
+ 
+BFS: uses a std::queue and a visited vector. A building is marked visited
+when it is added to the queue. Each building is printed in visit order with
+its distance (the start is distance 0), followed by "reachable out of total".
+ 
+5. Department Tree (DepartmentTree, department_hierarchy.h)
+A general tree: each DepartmentNode has a name, a parent pointer and a vector
+of child pointers (any number of children, siblings in insertion order). The
+first accepted department must have parent NONE and becomes the root; later
+ones need a parent accepted on an earlier line. Names are matched ignoring
+case. Menu additions exist in memory only. Search shows name, parent (None
+for the root), child count and depth. The hierarchy is shown in preorder with
+four spaces per depth; the preorder option prints the sequence on one line
+without indentation. The destructor deletes every node.
