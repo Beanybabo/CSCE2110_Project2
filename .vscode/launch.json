@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run campus",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/campus",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "preLaunchTask": "C/C++: build campus project"
+        }
+    ]
+}
