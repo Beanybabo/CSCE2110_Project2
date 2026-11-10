@@ -7,7 +7,6 @@ Modules:
     - Facility loading, display and ID search (Facilitydatabase.h, Facilitydatabase.cpp)
     - Shared text helpers (Stringutils.h)
 
-
 Benjamin Pickett
 Modules:
 	- campus graph (buildings_walkways.h, buildings_walkways.cpp)

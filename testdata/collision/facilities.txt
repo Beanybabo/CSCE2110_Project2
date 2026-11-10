@@ -1,0 +1,5 @@
+# F005 and F010 both hash to bucket 12 (capacity 13) -> 1 collision
+# f005 below is a duplicate (different capitalization): rejected, count unchanged
+F005|Room 101|Engineering Building|Classroom
+F010|Research Help Desk|Library|Library
+f005|Duplicate Room|Gym|Classroom
