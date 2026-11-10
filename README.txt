@@ -40,14 +40,16 @@ RUN
     2. Run with the default data directory (data/):
  
         ./campus
-
-TESTING
-    The tests are recorded in test_results.txt. To rerun them and regenerate
-    that file from the program's real output (needs python3), build the
-    program first, then run the script from the project root:
  
-        g++ -std=c++11 -g -Iinclude src/*.cpp -o campus
-        python3 tools/run_tests.py
+TESTING
+    The tests are recorded in test_results.txt (test number, description,
+    input, expected result, actual result, pass or fail). To repeat a test,
+    build the program, then run it from the project root with the data
+    directory named in the test and type the listed menu input. Example:
+ 
+        ./campus testdata/messy
+ 
+    Press Enter after each entry, and finish with 0 to exit.
  
     Test data folders (use them as the optional run argument):
         testdata/collision      IDs that collide in the hash table
