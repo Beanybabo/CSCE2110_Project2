@@ -9,7 +9,7 @@
         "-fdiagnostics-color=always",
         "-g",
         "-std=c++11",
-        "-I${workspaceFolder}/Include",
+        "-I${workspaceFolder}/include",
         "${workspaceFolder}/src/*.cpp",
         "-o",
         "${workspaceFolder}/campus"
